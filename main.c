@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "funcoes.h"
+#include "functions.h"
 #define TAM 30
 
 void main(){

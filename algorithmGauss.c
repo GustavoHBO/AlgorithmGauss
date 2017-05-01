@@ -44,14 +44,10 @@ void clearTerms(int valueY, float matrixAugmented[][valueY], int valueX){
         }
         for(k = 1; k + i < valueY; k++){
             valueMN = matrixAugmented[i+k][i] / matrixAugmented[i][i];
-            printf("%.2f\n", valueMN);
             for(j = 0; j < valueX; j++){
                 matrixAugmented[i+k][j] -= valueMN * matrixAugmented[i][j];
-                printf("%.2f\t", matrixAugmented[i+k][j]);
             }
-            printf("\n");
         }
-        printf("-------------------------------------------------\n");
     }
 }
 

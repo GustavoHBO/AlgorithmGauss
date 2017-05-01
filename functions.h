@@ -1,4 +1,4 @@
-#include "methodGauss.c"
+#include "algorithmGauss.c"
 //void menu();
 //int startProgram();
 //float *returnArrayCoefficient(char* equation, int quant);
