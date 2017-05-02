@@ -2,16 +2,6 @@
 #include <stdio.h>
 
 /*
-    param - matrixAugmented is a matrix of coefficient plus independent terms.
-    param - valueX is horizantal size
-    param - valueY is vertical size.
-*/
-float* methodGauss(float* matrixAugmented, int valueX, int valueY){
-
-
-}
-
-/*
  *   Change the lines in a matrix.
  */
 void changePlaceLine(int valueY, float matrixAugmented[][valueY], int line1, int line2, int valueX){
@@ -27,20 +17,20 @@ void changePlaceLine(int valueY, float matrixAugmented[][valueY], int line1, int
     }
 }
 
-void clearTerms(int valueY, float matrixAugmented[][valueY], int valueX){
+void clearTerms(int valueX, float matrixAugmented[][valueX], int valueY){
     float valueMN = 0;
     int i = 0, j = 0, newLine = 0, k = 0;
     if(valueY == 0 || matrixAugmented == NULL){
         return;
     }
-    for(i = 0; i < valueY - 1; i++){
+    for(i = 0; i < valueY; i++){
         newLine = i;
-        while(matrixAugmented[i][i] == 0){
-            if(newLine + 1 == valueY){
-                i++;
-                break;
-            }
+        while(matrixAugmented[i][i] == 0 && newLine + 1 < valueY){
             changePlaceLine(valueY, matrixAugmented, i, ++newLine, valueX);
+        }
+        if(newLine + 1 == valueY){
+            i++;
+            break;
         }
         for(k = 1; k + i < valueY; k++){
             valueMN = matrixAugmented[i+k][i] / matrixAugmented[i][i];
@@ -51,30 +41,26 @@ void clearTerms(int valueY, float matrixAugmented[][valueY], int valueX){
     }
 }
 
-void changeLine(int valueY, float matrixAugmented[][valueY], float arrayLine[], int line, int valueX){
-    float value;
-    int i = 0;
+void systemResolution(int valueX, float matrixAugmented[][valueX], int valueY, float arrayResolution[valueX-1]){
+    int i = 0, k =0;
+    float value = 0;
+    if(matrixAugmented[valueY-2][valueX-2] != 0 && matrixAugmented[valueY-2][valueX-1] !=0){
+        arrayResolution[valueX-2] = matrixAugmented[valueY-2][valueX-1]/matrixAugmented[valueY-2][valueX-2];
+    }
+    else{
+        arrayResolution[valueX-2] = 0;
+    }
 
-    if(valueY < line || matrixAugmented == NULL || arrayLine == NULL){
-        return;
-    }
-    for(i = 0; i < valueX; i++){
-        matrixAugmented[line][i] = arrayLine[i];
-    }
-}
+    for(i = valueY - 3; i >= 0; i--){
+        value = 0;
+        for(k = 0; k < valueY - 3 - i; k++){
+            printf("%f\n", matrixAugmented[i][i+1]);
+            printf("%f\n", arrayResolution[i+1-k]);
+            value += matrixAugmented[i][i+1] * arrayResolution[i+1-k];
+            printf("value %f\n", value);
 
-/*
- *   Change the column in a matrix.
- */
-void changePlaceColumn(int valueY, float matrixAugmented[][valueY], int column1, int column2, int valueX){
-    if(matrixAugmented == NULL || column1 < 0 || column2 < 0 || column1 == column2 || valueX <= 0 || column1 > valueX || column2 > valueX){
-        return;
-    }
-    float value;
-    int i = 0;
-    for(i = 0; i < valueX; i++){
-        value = matrixAugmented[i][column1];
-        matrixAugmented[i][column1] = matrixAugmented[i][column2];
-        matrixAugmented[i][column2] = value;
+        }
+        printf("value2%f\n", value);
+        arrayResolution[i] = (matrixAugmented[i][valueX-1] - value)/matrixAugmented[i][i];
     }
 }
